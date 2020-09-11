@@ -110,11 +110,19 @@ if [ ! -d $AXIOM_PATH ]; then
 else
 	cd $AXIOM_PATH && git pull
 fi
-
+echo -e "${BBlue}Installing extra deps...${Color_Off}"
+sudo apt-get install jq
+wget https://github.com/digitalocean/doctl/releases/download/v1.46.0/doctl-1.46.0-linux-amd64.tar.gz
+tar xf doctl-1.46.0-linux-amd64.tar.gz
+sudo mv ./doctl /usr/local/bin
+wget https://releases.hashicorp.com/packer/1.6.2/packer_1.6.2_linux_amd64.zip
+unzip packer_1.6.2_linux_amd64.zip
+sudo mv ./packer /usr/local/bin
 echo -e "${BBlue}What is your DigitalOcean API key? ${Color_Off}"
 echo -e -n "${Blue}Key >> ${Color_Off}"
 read do_key
 echo -e "${Blue}Setting up doctl!...${Color_Off}"
+
 doctl auth init -t $do_key
 #echo "What would you like to pick for region? nyc3, sfo2 <-- this one is best"
 region="sfo2"
